@@ -2,6 +2,10 @@
 # Using package
 ##Installing
 ```
+    npm install --save belt-vue-components
+```
+##Using in project
+```
 ESM
 import 'belt-vue-components'
 
