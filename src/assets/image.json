@@ -1,0 +1,42 @@
+[{
+  "id": 243,
+  "subtype": "default",
+  "is_public": 1,
+  "driver": "s3",
+  "path": "staging",
+  "name": "20180802145906-hdr-pagua-bay.jpeg",
+  "mimetype": "image/jpeg",
+  "size": 330384,
+  "title": null,
+  "note": null,
+  "credits": null,
+  "alt": null,
+  "target_url": null,
+  "original_name": "20180802145906-hdr-pagua-bay.jpeg",
+  "width": 1440,
+  "height": 720,
+  "deleted_at": null,
+  "created_at": "2018-08-01 20:34:34",
+  "updated_at": "2018-08-02 18:12:56",
+  "nickname": null,
+  "team_id": null,
+  "src": "http://d1ku7l8wi0chaw.cloudfront.net/staging/20180802145906-hdr-pagua-bay.jpeg",
+  "secure": "https://d1ku7l8wi0chaw.cloudfront.net/staging/20180802145906-hdr-pagua-bay.jpeg",
+  "rel_path": "staging/20180802145906-hdr-pagua-bay.jpeg",
+  "readable_size": "323 KB",
+  "is_image": true,
+  "morph_class": "attachments",
+  "config": {
+    "label": "",
+    "description": "",
+    "preview": "belt-content::sections.previews.default",
+    "params": []
+  },
+  "pivot": {
+    "clippable_id": 8,
+    "attachment_id": 243,
+    "clippable_type": "lists",
+    "position": 1
+  },
+  "resizes": []
+}]
