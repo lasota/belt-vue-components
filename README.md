@@ -1,5 +1,15 @@
 # belt-clip
+# Using package
+##Installing
+```
+ESM
+import 'belt-vue-components'
 
+Common/UMD
+require ('belt-vue-components')
+```
+
+#Contributing
 ## Project setup
 ```
 npm install
