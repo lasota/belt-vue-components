@@ -10,7 +10,7 @@ import VueMq from 'vue-mq';
 import App from './App.vue'
 
 import './components/index';
-console.log(axios.options)
+
 axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
     'Access-Control-Allow-Origin': '*'

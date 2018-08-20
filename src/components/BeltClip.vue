@@ -1,5 +1,5 @@
 <template>
-    <img v-if="source" :src="source" :alt="image.alt">
+    <img v-if="source" :src="source" :alt="image.alt" :class="classes">
 </template>
 <script>
     import cloudinary from 'cloudinary-core';
@@ -66,7 +66,7 @@
                     }
                 });
 
-                return default_index ? this.recipe[default_index] : null;
+                return default_index ? this.recipe[default_index] : this.default;
             },
             height() {
                 return _.has(this.currentRecipe, 'height') ? this.currentRecipe.height : null;
@@ -139,6 +139,10 @@
             },
         },
         props: {
+            classes: {
+                type: String,
+                default: ''
+            },
             attachment: {
                 type: Object,
                 default: () => {
