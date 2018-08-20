@@ -1,28 +1,64 @@
 <template>
     <div id="app">
+        <div class="belt-clip">
+            <BeltClip :attachment="image" :recipe="imageRecipe" v-if="image"></BeltClip>
+        </div>
+
         <img alt="Vue logo" src="./assets/logo.png">
-        <BeltClip :image="image"></BeltClip>
+
         <HelloWorld msg="Welcome to Your Vue.js App"/>
     </div>
 </template>
 
 <script>
-    import BeltClip from './components/BeltClip.vue'
     import HelloWorld from './components/HelloWorld.vue'
     import image from './assets/image.json';
-    import lodash from 'lodash';
-
-    window._ = lodash;
 
     export default {
         name: 'app',
+        created() {
+            this.setImage();
+        },
         components: {
-            BeltClip,
             HelloWorld
         },
         data() {
             return {
-                image: image
+                image: null,
+                imageRecipe: [
+                    {
+                        screens: 'xs',
+                        height: 660,
+                        width: 440
+                    },
+                    {
+                        screens: 'sm,md',
+                        height: 600,
+                        width: 992
+                    },
+                    {
+                        screens: 'default',
+                        width: 1440
+                    }
+                ],
+                imageToTest: 's3' //s3,cloudinary,local
+            }
+        },
+        methods: {
+            setImage() {
+
+                if( this.imageToTest == 'cloudinary' ) {}
+
+                if( this.imageToTest == 'local' ) {
+                    this.image = image;
+                }
+
+                if( this.imageToTest == 's3' ) {
+                    this.image = image;
+                    // axios.get(process.env.VUE_APP_S3_TEST_ROUTE).then(response => {
+                    //     console.log(response);
+                    // })
+                }
             }
         }
     }

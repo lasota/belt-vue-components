@@ -33,3 +33,7 @@ npm run build
 ```
 npm run lint
 ```
+
+
+
+@vue/cli-plugin-babel @vue/cli-plugin-eslint @vue/cli-service vue-template-compiler rollup rollup-plugin-buble rollup-plugin-commonjs rollup-plugin-filesize rollup-plugin-json rollup-plugin-node-resolve rollup-plugin-replace rollup-plugin-uglify rollup-plugin-vue rollup-watch

@@ -7,14 +7,72 @@
 
     export default {
         computed: {
-            height() {
-                if( _.has(this.mobileRecipe, 'height')  && !this.isDesktop ) {
-                    return this.mobileRecipe.height;
+            AWS() {
+                let object  = {};
+
+                if( process.env.VUE_APP_AWS_BUCKET && process.env.VUE_APP_AWS_REGION ) {
+                    object.BUCKET = process.env.VUE_APP_AWS_BUCKET;
+                    object.REGION = process.env.VUE_APP_AWS_REGION;
+
+                    if( process.env.VUE_APP_AWS_CLOUDFRONT ) {
+                        object.CLOUDFRONT = process.env.VUE_APP_AWS_CLOUDFRONT;
+                    }
                 }
-                return _.has(this.recipe, 'height') ? this.recipe.height : null;
+
+                if( process.env.MIX_AWS_BUCKET && process.env.MIX_AWS_REGION ) {
+                    object.BUCKET = process.env.MIX_AWS_BUCKET;
+                    object.REGION = process.env.MIX_AWS_REGION;
+
+                    if( process.env.MIX_AWS_CLOUDFRONT ) {
+                        object.CLOUDFRONT = proces.env.MIX_AWS_CLOUDFRONT;
+                    }
+                }
+
+                return object;
             },
-            isDesktop() {
-                return _.includes(['lg', 'xl'], this.$mq);
+            CLOUDFRONT() {
+                let object = {};
+
+                    if( process.env.VUE_APP_CLOUDINARY_NAME ) {
+                        object.NAME = process.env.VUE_APP_CLOUDINARY_NAME;
+                    }
+
+                    if( process.env.MIX_CLOUDINARY_NAME ) {
+                        object.NAME = process.env.MIX_CLOUDINARY_NAME;
+                    }
+
+                return object;
+            },
+            currentRecipe() {
+                let matching_index = null;
+
+                _.each(this.recipe, (size, index) => {
+                    let screens = size.screens.split(',');
+                    if( _.indexOf(screens, this.$mq) > -1 ) {
+                        matching_index = index;
+                    }
+                });
+
+                return matching_index !== null ? this.recipe[matching_index] : this.defaultRecipe;
+            },
+            defaultRecipe() {
+                let default_index = null;
+
+                _.each(this.recipe, (size,index) => {
+                    let screens = size.screens.split(',');
+                    if( _.indexOf(screens, 'default') > -1 ) {
+                        default_index = index;
+                        return
+                    }
+                });
+
+                return default_index ? this.recipe[default_index] : null;
+            },
+            height() {
+                return _.has(this.currentRecipe, 'height') ? this.currentRecipe.height : null;
+            },
+            image() {
+                return this.attachment;
             },
             source() {
                 if( _.has(this.image, 'driver') && this.image.driver == 's3' ) {
@@ -32,16 +90,8 @@
                 return false;
             },
             width() {
-                if( _.has(this.mobileRecipe, 'width')  && !this.isDesktop ) {
-                    return this.mobileRecipe.width;
-                }
-
-                return _.has(this.recipe, 'width') ? this.recipe.width : null
-            },
-            image() {
-                return this.attachment;
-            },
-
+                return _.has(this.currentRecipe, 'width') ? this.currentRecipe.width : null;
+            }
         },
         methods: {
             cloudinarySource() {
@@ -62,26 +112,27 @@
                 return cl.url(this.image.rel_path, config);
             },
             s3Source() {
+                if( this.AWS ) {
+                    if (this.height || this.width) {
+                        let host = `${this.AWS.BUCKET}.s3-website-${this.AWS.REGION}.amazonaws.com`
 
-                if( this.recipe.height || this.recipe.width ) {
-                    let host = `${process.env.MIX_AWS_BUCKET}.s3-website-${process.env.MIX_AWS_REGION}.amazonaws.com`
+                        if (this.AWS.CLOUDFRONT) {
+                            host = this.AWS.CLOUDFRONT;
+                        }
 
-                    if( process.env.MIX_AWS_CLOUDFRONT  ) {
-                        host = process.env.MIX_AWS_CLOUDFRONT;
+                        let height = this.height ? this.height : this.width / (this.image.width/this.image.height);
+                        let width = this.width ? this.width : this.height * (this.image.width/this.image.height);
+                        let resizeDir = `${width}x${height}`;
+
+                        let path = this.image.path ? this.image.path + '/' : '';
+
+                        return URI.serialize({
+                            // scheme : !_.isEmpty(this.image.secure) ? 'https' : 'http',
+                            scheme: '//',
+                            host: host,
+                            path: resizeDir + '/' + path + this.image.name
+                        });
                     }
-
-                    let height = this.height;
-                    let width = this.width;
-                    let resizeDir = `${width}x${height}`;
-
-                    let path = this.image.path ? this.image.path + '/' : '';
-
-                    return URI.serialize({
-                        // scheme : !_.isEmpty(this.image.secure) ? 'https' : 'http',
-                        scheme : '//',
-                        host : host,
-                        path: resizeDir + '/' + path +  this.image.name
-                    });
                 }
 
                 return this.image.src;
@@ -98,17 +149,14 @@
                     }
                 }
             },
-            mobileRecipe: {
-                type: Object,
-                default: null
-            },
             recipe: {
-                type: Object,
+                type: Array,
                 default: () => {
-                    return {
+                    return [{
+                        screens: 'default',
                         height: null,
                         width: null
-                    }
+                    }]
                 }
             }
         }
