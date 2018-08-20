@@ -24,7 +24,7 @@
                     object.REGION = process.env.MIX_AWS_REGION;
 
                     if( process.env.MIX_AWS_CLOUDFRONT ) {
-                        object.CLOUDFRONT = proces.env.MIX_AWS_CLOUDFRONT;
+                        object.CLOUDFRONT = process.env.MIX_AWS_CLOUDFRONT;
                     }
                 }
 
