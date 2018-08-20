@@ -1,6 +1,6 @@
 {
   "name": "belt-vue-components",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "main": "./dist/belt-vue.umd.js",
   "module": "dist/belt-vue.esm.js",
@@ -13,8 +13,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-bundle": "vue-cli-service build --target lib --name belt-vue ./src/components/index.js",
+    "build": "vue-cli-service build --target lib --name belt-vue ./src/components/index.js && npm run build:es",
     "build:es": "rollup -c ./build/rollup.es.config.js",
     "lint": "vue-cli-service lint",
     "peers": "npm install --no-save axios vue jquery lodash laravel-mix"

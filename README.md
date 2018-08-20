@@ -12,6 +12,10 @@ import 'belt-vue-components'
 Common/UMD
 require ('belt-vue-components')
 ```
+###Syntax
+```
+    <belt-clip :attachment="object" :recipe="[{screens: 'default', height: 960, width: 1440}]">
+```
 
 #Contributing
 ## Project setup
