@@ -62,11 +62,11 @@
                     let screens = size.screens.split(',');
                     if( _.indexOf(screens, 'default') > -1 ) {
                         default_index = index;
-                        return
+                        return;
                     }
                 });
 
-                return default_index ? this.recipe[default_index] : this.default;
+                return default_index !== null ? this.recipe[default_index] : this.default;
             },
             height() {
                 return _.has(this.currentRecipe, 'height') ? this.currentRecipe.height : null;
