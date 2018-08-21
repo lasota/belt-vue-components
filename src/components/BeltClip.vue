@@ -120,8 +120,8 @@
                             host = this.AWS.CLOUDFRONT;
                         }
 
-                        let height = this.height ? this.height : this.width / (this.image.width/this.image.height);
-                        let width = this.width ? this.width : this.height * (this.image.width/this.image.height);
+                        let height = this.height ? this.height : Math.floor(this.width / (this.image.width/this.image.height));
+                        let width = this.width ? this.width : Math.floor(this.height * (this.image.width/this.image.height));
                         let resizeDir = `${width}x${height}`;
 
                         let path = this.image.path ? this.image.path + '/' : '';
