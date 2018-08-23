@@ -1,6 +1,14 @@
 <template>
-    <img v-if="source" :src="source" :alt="image.alt" :class="classes">
+
+    <img v-if="source"
+         :src="source"
+         :alt="image.alt"
+         :style="styles"
+         :class="classes"
+         >
+
 </template>
+
 <script>
     import cloudinary from 'cloudinary-core';
     let URI = require('uri-js/dist/es5/uri.all.min');
@@ -69,7 +77,17 @@
                 return default_index !== null ? this.recipe[default_index] : this.default;
             },
             height() {
-                return _.has(this.currentRecipe, 'height') ? this.currentRecipe.height : null;
+
+                if(_.has(this.currentRecipe, 'height')) {
+                    return this.currentRecipe.height;
+                }
+
+                if(_.has(this.currentRecipe, 'width')) {
+                    return Math.floor( this.width / (this.image.width/this.image.height) );
+                }
+
+                return  this.image.height;
+
             },
             image() {
                 return this.attachment;
@@ -89,8 +107,24 @@
 
                 return false;
             },
+            styles() {
+                return {
+                    'max-height': this.height + 'px',
+                    'max-width': this.width + 'px'
+                }
+            },
             width() {
-                return _.has(this.currentRecipe, 'width') ? this.currentRecipe.width : null;
+
+                if(_.has(this.currentRecipe, 'width')) {
+                    return this.currentRecipe.width
+                }
+
+                if(_.has(this.currentRecipe, 'height')) {
+                    return Math.floor( this.height * (this.image.width/this.image.height) );
+                }
+
+                return  this.image.width;
+
             }
         },
         methods: {
@@ -101,11 +135,11 @@
                     crop: 'fill'
                 }
 
-                if( this.height ) {
+                if( _.has(this.currentRecipe, 'height') ) {
                     config.height = this.height;
                 }
 
-                if( this.width ) {
+                if( _.has(this.currentRecipe, 'width') ) {
                     config.width = this.width;
                 }
 
@@ -120,8 +154,8 @@
                             host = this.AWS.CLOUDFRONT;
                         }
 
-                        let height = this.height ? this.height : Math.floor(this.width / (this.image.width/this.image.height));
-                        let width = this.width ? this.width : Math.floor(this.height * (this.image.width/this.image.height));
+                        let height = this.height;
+                        let width = this.width;
                         let resizeDir = `${width}x${height}`;
 
                         let path = this.image.path ? this.image.path + '/' : '';
@@ -158,8 +192,8 @@
                 default: () => {
                     return [{
                         screens: 'default',
-                        height: null,
-                        width: null
+                        height: 100,
+                        width: 100
                     }]
                 }
             }
