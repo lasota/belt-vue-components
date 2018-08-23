@@ -1,6 +1,6 @@
 {
   "name": "belt-vue-components",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": false,
   "main": "./dist/belt-vue.umd.js",
   "module": "dist/belt-vue.esm.js",
