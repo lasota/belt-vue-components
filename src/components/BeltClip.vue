@@ -74,7 +74,7 @@
                     }
                 });
 
-                return default_index !== null ? this.recipe[default_index] : this.default;
+                return default_index !== null ? this.recipe[default_index] : {};
             },
             height() {
 
@@ -108,10 +108,17 @@
                 return false;
             },
             styles() {
-                return {
-                    'max-height': this.height + 'px',
-                    'max-width': this.width + 'px'
+                let styles = {};
+
+                if( this.maxHeight ) {
+                    styles.maxHeight = this.maxHeight + 'px'
                 }
+
+                if( this.maxWidth ) {
+                    styles.maxWidth = this.maxWidth + 'px'
+                }
+
+                return styles;
             },
             width() {
 
@@ -179,6 +186,7 @@
             },
             attachment: {
                 type: Object,
+                required: true,
                 default: () => {
                     return {
                         alt: '',
@@ -187,14 +195,18 @@
                     }
                 }
             },
+            maxHeight: {
+                type: Number,
+                default: null
+            },
+            maxWidth: {
+                type: Number,
+                default: null
+            },
             recipe: {
                 type: Array,
                 default: () => {
-                    return [{
-                        screens: 'default',
-                        height: 100,
-                        width: 100
-                    }]
+                    return []
                 }
             }
         }

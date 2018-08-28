@@ -3,6 +3,9 @@
         <div class="belt-clip">
             <BeltClip :attachment="image" :recipe="imageRecipe" v-if="image"></BeltClip>
         </div>
+        <div class="belt-clip">
+            <BeltClip :attachment="image" :max-width="100" v-if="image"></BeltClip>
+        </div>
 
         <img alt="Vue logo" src="./assets/logo.png">
 
