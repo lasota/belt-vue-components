@@ -184,6 +184,11 @@
                 type: String,
                 default: ''
             },
+            cloudinaryConfig: {
+                default: () => {
+                    return { crop: 'fit' }
+                }
+            },
             attachment: {
                 type: Object,
                 required: true,
