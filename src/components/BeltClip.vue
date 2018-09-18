@@ -5,6 +5,7 @@
          :alt="image.alt"
          :style="styles"
          :class="classes"
+         @load="loaded"
          >
 
 </template>
@@ -178,6 +179,9 @@
 
                 return this.image.src;
             },
+            loaded() {
+                this.$emit('belt-clip-load');
+            }
         },
         props: {
             classes: {
