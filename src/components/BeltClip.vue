@@ -1,7 +1,7 @@
 <template>
 
     <img v-if="source"
-         :src="source"
+          :src="source"
          :alt="image.alt"
          :style="styles"
          :class="classes"
@@ -16,14 +16,12 @@
 
     export default {
         created() {
-            let params = {
-                width: this.width,
-                height: this.height,
-                image: this.image
-            }
+            let params = this.params
+            params.height = this.params.height
+            params.width = this.params.width
 
-            this.AWS = new AWSDriver(params)
-            this.CLOUDINARY = new CloudinaryDriver(params)
+            this.AWS = new AWSDriver(this.image, params)
+            this.CLOUDINARY = new CloudinaryDriver(this.image, params)
         },
         data() {
             return {
@@ -32,6 +30,12 @@
             }
         },
         computed: {
+            hasWidth() {
+                return _.has(this.currentRecipe, 'width')
+            },
+            hasHeight() {
+                return _.has(this.currentRecipe, 'height')
+            },
             currentRecipe() {
                 let matching_index = null;
 
@@ -58,19 +62,6 @@
                 });
 
                 return default_index !== null ? this.recipe[default_index] : {}
-            },
-            height() {
-
-                if(_.has(this.currentRecipe, 'height')) {
-                    return this.currentRecipe.height
-                }
-
-                if(_.has(this.currentRecipe, 'width')) {
-                    return Math.floor( this.width / (this.image.width/this.image.height) )
-                }
-
-                return  this.image.height
-
             },
             image() {
                 return this.attachment
@@ -104,18 +95,11 @@
 
                 return styles;
             },
+            height() {
+                return this.hasHeight ? this.currentRecipe.height : ''
+            },
             width() {
-
-                if(_.has(this.currentRecipe, 'width')) {
-                    return this.currentRecipe.width
-                }
-
-                if(_.has(this.currentRecipe, 'height')) {
-                    return Math.floor( this.height * (this.image.width/this.image.height) )
-                }
-
-                return  this.image.width
-
+                return this.hasWidth ? this.currentRecipe.width : ''
             }
         },
         methods: {
@@ -140,7 +124,9 @@
                     return {
                         alt: '',
                         driver: 'local',
-                        src: 'https://placekitten.com/358/200'
+                        src: 'https://placekitten.com/358/200',
+                        height: 200,
+                        width: 300
                     }
                 }
             },
@@ -151,6 +137,10 @@
             maxWidth: {
                 type: Number,
                 default: null
+            },
+            params: {
+                type: Object,
+                default: () => { return {} }
             },
             recipe: {
                 type: Array,

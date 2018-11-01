@@ -1,7 +1,10 @@
 <template>
     <div id="app">
         <div class="belt-clip">
-            <BeltClip :attachment="image" :recipe="imageRecipe" v-if="image"></BeltClip>
+            <BeltClip :attachment="image" :recipe="recipes.hero" v-if="image" :params="{grayscale: true}"></BeltClip>
+        </div>
+        <div class="belt-clip">
+            <BeltClip :attachment="image" :recipe="recipes.thumb" v-if="image"></BeltClip>
         </div>
         <div class="belt-clip">
             <BeltClip :attachment="image" :max-width="100" v-if="image"></BeltClip>
@@ -15,7 +18,8 @@
 
 <script>
     import HelloWorld from './components/HelloWorld.vue'
-    import image from './assets/image.json';
+    import image from './assets/image-bradenton.js';
+    // import image from './assets/image-dominica.json';
 
     export default {
         name: 'app',
@@ -28,7 +32,8 @@
         data() {
             return {
                 image: null,
-                imageRecipe: [
+                recipes: {
+                    hero: [
                     {
                         screens: 'xs',
                         height: 660,
@@ -42,22 +47,25 @@
                     {
                         screens: 'default',
                         width: 1440
-                    }
-                ],
+                    }],
+                    thumb: [{screens: 'default', height: 415, width: 370}, {screens: 'xs,sm', height: 200, width: 320}]
+                },
                 imageToTest: 's3' //s3,cloudinary,local
             }
         },
         methods: {
             setImage() {
 
-                if( this.imageToTest == 'cloudinary' ) {}
+                if( this.imageToTest == 'cloudinary' ) {
+                    this.image = image
+                }
 
                 if( this.imageToTest == 'local' ) {
-                    this.image = image;
+                    this.image = image
                 }
 
                 if( this.imageToTest == 's3' ) {
-                    this.image = image;
+                    this.image = image
                     // axios.get(process.env.VUE_APP_S3_TEST_ROUTE).then(response => {
                     //     console.log(response);
                     // })

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Vue from 'vue'
 import lodash from 'lodash'
+
 global.axios = axios;
 global.Vue = Vue;
 global._ = lodash;

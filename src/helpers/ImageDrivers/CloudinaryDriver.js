@@ -2,8 +2,8 @@ import BaseImageDriver from './BaseImageDriver'
 import cloudinary from 'cloudinary-core'
 
 export default class extends BaseImageDriver {
-    constructor(params) {
-        super(params)
+    constructor(image, params) {
+        super(image, params)
 
         this.config = this.config()
     }
@@ -25,18 +25,18 @@ export default class extends BaseImageDriver {
     source() {
         let cl = new cloudinary.Cloudinary({cloud_name: this.config.NAME, secure: true})
 
-        let config = {
+        let recipe = {
             crop: 'fill'
         }
 
-        if( _.has(this.currentRecipe, 'height') ) {
-            config.height = this.height
+        if( this.paramsContain('height') ) {
+            recipe.height = this.params.height
         }
 
-        if( _.has(this.currentRecipe, 'width') ) {
-            config.width = this.width
+        if( this.paramsContain('width') ) {
+            recipe.width = this.params.width
         }
 
-        return cl.url(this.image.rel_path, config)
+        return cl.url(this.image.rel_path, recipe)
     }
 }
