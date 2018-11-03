@@ -139,12 +139,6 @@
                 return this.hasWidth ? this.currentRecipe.width : ''
             }
         },
-        watch: {
-            image() {
-                
-                
-            }
-        },
         created() {
             let params = this.params
             params.height = this.height
