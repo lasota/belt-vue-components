@@ -17,8 +17,8 @@
     export default {
         created() {
             let params = this.params
-            params.height = this.params.height
-            params.width = this.params.width
+            params.height = this.height
+            params.width = this.width
 
             this.AWS = new AWSDriver(this.image, params)
             this.CLOUDINARY = new CloudinaryDriver(this.image, params)
