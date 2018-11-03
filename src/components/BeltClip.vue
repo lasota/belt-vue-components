@@ -137,6 +137,12 @@
                 return this.hasWidth ? this.currentRecipe.width : ''
             }
         },
+        watch: {
+            image() {
+                this.AWS.setImage(this.image)
+                this.CLOUDINARY.setImage(this.image)
+            }
+        },
         created() {
             let params = this.params
             params.height = this.height
