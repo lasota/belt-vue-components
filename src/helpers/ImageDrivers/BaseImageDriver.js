@@ -17,4 +17,14 @@ export default class BaseImageDriver {
         this.width = params.width ? params.width : 0
         this.params =  params
     }
+
+    updateHeight(height) {
+        this.height = height
+        this.params.height = height
+    }
+
+    updateWidth(width) {
+        this.width = width
+        this.params.width = width
+    }
 }

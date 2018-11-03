@@ -104,12 +104,14 @@
             },
             source() {
                 if( _.has(this.image, 'driver') && this.image.driver == 's3' ) {
+                    this.AWS.setImage(this.image)
                     this.AWS.height = this.height
                     this.AWS.width = this.width
                     return this.AWS.source()
                 }
 
                 if( _.has(this.image, 'driver') && this.image.driver == 'cloudinary' ) {
+                    this.CLOUDINARY.setImage(this.image)
                     this.CLOUDINARY.height = this.height
                     this.CLOUDINARY.width = this.width 
                     return this.CLOUDINARY.source()
@@ -139,8 +141,8 @@
         },
         watch: {
             image() {
-                this.AWS.setImage(this.image)
-                this.CLOUDINARY.setImage(this.image)
+                
+                
             }
         },
         created() {
