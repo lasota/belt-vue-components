@@ -1,27 +1,63 @@
 <template>
 
-    <img v-if="source"
-          :src="source"
-         :alt="image.alt"
-         :style="styles"
-         :class="classes"
-         @load="loaded"
-         >
+    <img v-if="source" 
+        :src="source"
+        :alt="image.alt"
+        :style="styles"
+        :class="classes"
+        @load="loaded"
+    >
 
 </template>
 
 <script>
     import AWSDriver from '../helpers/ImageDrivers/S3Driver'
     import CloudinaryDriver from '../helpers/ImageDrivers/CloudinaryDriver'
+    import { memberExpression } from 'babel-types';
 
     export default {
-        created() {
-            let params = this.params
-            params.height = this.height
-            params.width = this.width
-
-            this.AWS = new AWSDriver(this.image, params)
-            this.CLOUDINARY = new CloudinaryDriver(this.image, params)
+        props: {
+            classes: {
+                type: String,
+                default: ''
+            },
+            cloudinaryConfig: {
+                default: () => {
+                    return { crop: 'fit' }
+                }
+            },
+            attachment: {
+                type: Object,
+                required: true,
+                default: () => {
+                    return {
+                        alt: '',
+                        driver: 'local',
+                        is_image: true,
+                        src: 'https://placekitten.com/358/200',
+                        height: 200,
+                        width: 300
+                    }
+                }
+            },
+            maxHeight: {
+                type: Number,
+                default: null
+            },
+            maxWidth: {
+                type: Number,
+                default: null
+            },
+            params: {
+                type: Object,
+                default: () => { return {} }
+            },
+            recipe: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            }
         },
         data() {
             return {
@@ -64,11 +100,10 @@
                 return default_index !== null ? this.recipe[default_index] : {}
             },
             image() {
-                return this.attachment
+                return _.has(this.attachment, 'is_image') && this.attachment.is_image ? this.attachment : {}
             },
             source() {
                 if( _.has(this.image, 'driver') && this.image.driver == 's3' ) {
-                    //return this.s3Source();
                     this.AWS.height = this.height
                     this.AWS.width = this.width
                     return this.AWS.source()
@@ -102,51 +137,17 @@
                 return this.hasWidth ? this.currentRecipe.width : ''
             }
         },
+        created() {
+            let params = this.params
+            params.height = this.height
+            params.width = this.width
+
+            this.AWS = new AWSDriver(this.image, params)
+            this.CLOUDINARY = new CloudinaryDriver(this.image, params)
+        },
         methods: {
             loaded() {
                 this.$emit('belt-clip-load')
-            }
-        },
-        props: {
-            classes: {
-                type: String,
-                default: ''
-            },
-            cloudinaryConfig: {
-                default: () => {
-                    return { crop: 'fit' }
-                }
-            },
-            attachment: {
-                type: Object,
-                required: true,
-                default: () => {
-                    return {
-                        alt: '',
-                        driver: 'local',
-                        src: 'https://placekitten.com/358/200',
-                        height: 200,
-                        width: 300
-                    }
-                }
-            },
-            maxHeight: {
-                type: Number,
-                default: null
-            },
-            maxWidth: {
-                type: Number,
-                default: null
-            },
-            params: {
-                type: Object,
-                default: () => { return {} }
-            },
-            recipe: {
-                type: Array,
-                default: () => {
-                    return []
-                }
             }
         }
     }
