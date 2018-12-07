@@ -13,7 +13,6 @@
 <script>
     import AWSDriver from '../helpers/ImageDrivers/S3Driver'
     import CloudinaryDriver from '../helpers/ImageDrivers/CloudinaryDriver'
-    import { memberExpression } from 'babel-types';
 
     export default {
         props: {
