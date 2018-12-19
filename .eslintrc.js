@@ -1,5 +1,8 @@
 module.exports = {
-    "parser": "babel-eslint",
+    lintOnSave: false,
+    "parserOptions": {
+        "parser": "babel-eslint"
+    },
     "globals": {
         "_": false
     }

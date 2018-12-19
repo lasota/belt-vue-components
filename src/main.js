@@ -10,7 +10,11 @@ import VueMq from 'vue-mq';
 
 import App from './App.vue'
 
-import './components/index';
+import { BeltClip } from './components/index';
+
+
+Vue.component('belt-clip', BeltClip)
+
 
 axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',

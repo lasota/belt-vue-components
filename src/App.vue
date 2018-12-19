@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <div class="belt-clip">
-            <BeltClip :attachment="image" :recipe="recipes.hero" v-if="image" :params="{grayscale: true}"></BeltClip>
+            <belt-clip :attachment="image" :recipe="recipes.hero" v-if="image" :params="{grayscale: true}"></belt-clip>
         </div>
         <div class="belt-clip">
-            <BeltClip :attachment="image" :recipe="recipes.thumb" v-if="image"></BeltClip>
+            <belt-clip :attachment="image" :recipe="recipes.thumb" v-if="image"></belt-clip>
         </div>
         <div class="belt-clip">
-            <BeltClip :attachment="image" :max-width="100" v-if="image"></BeltClip>
+            <belt-clip :attachment="image" :max-width="100" v-if="image"></belt-clip>
         </div>
 
         <img alt="Vue logo" src="./assets/logo.png">
