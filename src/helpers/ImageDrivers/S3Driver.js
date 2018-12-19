@@ -1,5 +1,4 @@
 import BaseImageDriver from './BaseImageDriver'
-let URI = require('uri-js/dist/es5/uri.all.min')
 
 export default class extends BaseImageDriver {
     constructor(image, params) {
@@ -36,6 +35,9 @@ export default class extends BaseImageDriver {
 
         if( this.config ) {
             if (this.height || this.width) {
+
+                let scheme = (!_.isEmpty(this.image.secure) ? 'https' : 'http') + '://'
+
                 let host = `${this.config.BUCKET}.s3-website-${this.config.REGION}.amazonaws.com`
 
                 if (this.config.CLOUDFRONT) {
@@ -45,12 +47,7 @@ export default class extends BaseImageDriver {
                 let image_path = this.image.path ? `${this.image.path}/` : ''
                 let path = this.security_key() + this.fit_in() + '/' + this.dimensions() + this.smart_crop() + this.filter() + '/' + image_path + this.image.name
 
-                return URI.serialize({
-                    scheme : !_.isEmpty(this.image.secure) ? 'https' : 'http',
-                    host: host,
-                    unicodeSupport: false,
-                    path: path
-                })
+                return scheme + host + path
             }
         }
 

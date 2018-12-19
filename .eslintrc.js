@@ -1,7 +1,8 @@
 module.exports = {
-    lintOnSave: false,
-    "parserOptions": {
-        "parser": "babel-eslint"
+    parserOptions: {
+        parser: 'babel-eslint',
+        "ecmaVersion": 6,
+        "sourceType": "module"
     },
     "globals": {
         "_": false
