@@ -60,8 +60,7 @@
         },
         data() {
             return {
-                AWS: null,
-                CLOUDINARY: null
+                image_driver: null
             }
         },
         computed: {
@@ -102,18 +101,12 @@
                 return _.has(this.attachment, 'is_image') && this.attachment.is_image ? this.attachment : {}
             },
             source() {
-                if( _.has(this.image, 'driver') && this.image.driver == 's3' ) {
-                    this.AWS.setImage(this.image)
-                    this.AWS.height = this.height
-                    this.AWS.width = this.width
-                    return this.AWS.source()
-                }
 
-                if( _.has(this.image, 'driver') && this.image.driver == 'cloudinary' ) {
-                    this.CLOUDINARY.setImage(this.image)
-                    this.CLOUDINARY.height = this.height
-                    this.CLOUDINARY.width = this.width 
-                    return this.CLOUDINARY.source()
+                if(this.image_driver) {
+                    this.image_driver.setImage(this.image)
+                    this.image_driver.updateHeight(this.height)
+                    this.image_driver.updateWidth(this.width)
+                    return this.image_driver.source()
                 }
 
                 return this.image.src
@@ -143,8 +136,13 @@
             params.height = this.height
             params.width = this.width
 
-            this.AWS = new AWSDriver(this.image, params)
-            this.CLOUDINARY = new CloudinaryDriver(this.image, params)
+            if( _.get(this.image, 'driver') == 's3' ) {
+                this.image_driver = new AWSDriver(this.image, params)
+            }
+
+            if( _.get(this.image, 'driver') == 'cloudinary' ) {
+                this.image_driver = new CloudinaryDriver(this.image, params)
+            }
         },
         methods: {
             loaded() {

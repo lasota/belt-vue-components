@@ -1,7 +1,7 @@
 import BaseImageDriver from './BaseImageDriver'
 import cloudinary from 'cloudinary-core'
 
-export default class extends BaseImageDriver {
+class CloudinaryDriver extends BaseImageDriver {
     constructor(image, params) {
         super(image, params)
 
@@ -40,3 +40,5 @@ export default class extends BaseImageDriver {
         return cl.url(this.image.rel_path, recipe)
     }
 }
+
+export { CloudinaryDriver as default }

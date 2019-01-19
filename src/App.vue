@@ -1,6 +1,9 @@
 <template>
     <div id="app">
         <div class="belt-clip">
+            <belt-clip :attachment="image" :recipe="recipes.header" v-if="image"></belt-clip>
+        </div>
+        <div class="belt-clip">
             <belt-clip :attachment="image" :recipe="recipes.hero" v-if="image" :params="{grayscale: true}"></belt-clip>
         </div>
         <div class="belt-clip">
@@ -18,8 +21,9 @@
 
 <script>
     import HelloWorld from './components/HelloWorld.vue'
-    import image from './assets/image-bradenton.js';
-    // import image from './assets/image-dominica.json';
+    // import image from './assets/image-bradenton.js'; //aws
+    // import image from './assets/image-dominica.json'; //aws
+    import image from './assets/image-rozy.js';  //cloudinary
 
     export default {
         name: 'app',
@@ -33,6 +37,17 @@
             return {
                 image: null,
                 recipes: {
+                    header: [
+                        {
+                            screens: 'default',
+                            width: 1200
+                        },
+                        {
+                            screens: 'xs,sm',
+                            height: 213,
+                            width: 440
+                        }
+                    ],
                     hero: [
                     {
                         screens: 'xs',
