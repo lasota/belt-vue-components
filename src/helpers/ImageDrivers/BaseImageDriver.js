@@ -19,12 +19,12 @@ export default class BaseImageDriver {
     }
 
     updateHeight(height) {
-        this.height = height
-        this.params.height = height
+        this.height = height ? height : 0
+        this.params.height = this.height
     }
 
     updateWidth(width) {
-        this.width = width
-        this.params.width = width
+        this.width = width ? width : 0
+        this.params.width = this.width
     }
 }
